@@ -79,6 +79,7 @@ class WorkerTask:
 
         import jlist
         jlist.patch_all()
+        print("PATCHING FOR JLIST")
 
         while True:
             if index > nvalue:
