@@ -76,6 +76,10 @@ class WorkerTask:
         inner_loops = self.inner_loops
         if not inner_loops:
             inner_loops = 1
+
+        import jlist
+        jlist.patch_all()
+
         while True:
             if index > nvalue:
                 break
