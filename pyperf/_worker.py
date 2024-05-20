@@ -7,9 +7,6 @@ from pyperf._formatter import (format_number, format_value, format_values,
                                format_timedelta)
 from pyperf._utils import MS_WINDOWS, MAC_OS, percentile, median_abs_dev
 
-import pytest_codspeed
-codspeed = pytest_codspeed._wrapper.get_lib()
-
 
 MAX_LOOPS = 2 ** 32
 
@@ -74,6 +71,9 @@ class WorkerTask:
                     sys._stats_off()
 
             task_func = stats_func
+
+        import pytest_codspeed
+        codspeed = pytest_codspeed._wrapper.get_lib()
 
         core_task_func = task_func
         def codspeed_support(*args):
