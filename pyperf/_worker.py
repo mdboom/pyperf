@@ -128,7 +128,7 @@ class WorkerTask:
 
             index += 1
 
-        codspeed.dump_stats_to(self.name.encode("ascii"))
+        codspeed.dump_stats_at(self.name.encode("ascii"))
 
     def collect_metadata(self):
         from pyperf._collect_metadata import collect_metadata
