@@ -7,6 +7,9 @@ from pyperf._formatter import (format_number, format_value, format_values,
                                format_timedelta)
 from pyperf._utils import MS_WINDOWS, MAC_OS, percentile, median_abs_dev
 
+import pytest_codspeed
+codspeed = pytest_codspeed._wrapper.get_lib()
+
 
 MAX_LOOPS = 2 ** 32
 
@@ -72,6 +75,15 @@ class WorkerTask:
 
             task_func = stats_func
 
+        core_task_func = task_func
+        def codspeed_support(*args):
+            codspeed.start_instrumentation()
+            try:
+                return core_task_func(*args)
+            finally:
+                codspeed.stop_instrumentation()
+        task_func = codspeed_support
+
         index = 1
         inner_loops = self.inner_loops
         if not inner_loops:
@@ -115,6 +127,8 @@ class WorkerTask:
                 nvalue += 1
 
             index += 1
+
+        codspeed.dump_stats_to(self.name.encode("ascii"))
 
     def collect_metadata(self):
         from pyperf._collect_metadata import collect_metadata
